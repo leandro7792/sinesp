@@ -1,0 +1,11 @@
+{
+  "uid": "sinesp",
+  "append": true,
+  "watch": true,
+  "script": "server.js",
+  "command"
+  "sourceDir": "./",
+  "logFile": "./logs/forever.log",
+  "outFile": "./logs/out.log",
+  "errFile": "./logs/error.log"
+}
