@@ -1,5 +1,12 @@
+import fs from 'fs';
+import https from 'https';
 import express from 'express';
 import { search } from 'sinesp-api';
+
+const options = {
+  key: fs.readFileSync('./ssl/sinesppass.key'),
+  cert: fs.readFileSync('./ssl/sinespcert.crt'),
+};
 
 const server = express();
 server.use(express.json());
@@ -22,6 +29,10 @@ server.get('/:plate', async (req, res) => {
   }
 });
 
-server.listen(3333, () => {
+https.createServer(options, server).listen(3333, () => {
   console.log('Server start');
 });
+
+// server.listen(3333, () => {
+//   console.log('Server start');
+// });
