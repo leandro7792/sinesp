@@ -4,9 +4,9 @@ import express from 'express';
 import { search } from 'sinesp-api';
 
 const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/cert.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/chain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/privkey.pem', 'utf8'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/cert.pem', 'utf8'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/chain.pem', 'utf8'),
 };
 
 const app = express();
@@ -34,6 +34,8 @@ app.get('/:plate', async (req, res) => {
   }
 });
 
-https.createServer(options, app).listen(3333, () => {
-  console.log('Server start');
-});
+https
+  .createServer(options, app)
+  .listen(3333, () => {
+    console.log('Server start');
+  });
