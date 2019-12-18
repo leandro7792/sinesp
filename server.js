@@ -4,21 +4,25 @@ import express from 'express';
 import { search } from 'sinesp-api';
 
 const options = {
-  key: fs.readFileSync('./ssl/sinesppass.key'),
-  cert: fs.readFileSync('./ssl/sinespcert.crt'),
+  key: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/fullchain.pem'),
 };
 
-const server = express();
-server.use(express.json());
+const app = express();
+app.use(express.json());
 
-server.get('/:plate', async (req, res) => {
+app.add((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.get('/:plate', async (req, res) => {
   try {
     const { plate } = req.params;
     const car = await search(plate);
 
     res
-      .header("Access-Control-Allow-Origin", "*")
-      .header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
       .status(200)
       .json(car);
 
@@ -29,10 +33,6 @@ server.get('/:plate', async (req, res) => {
   }
 });
 
-https.createServer(options, server).listen(3333, () => {
+https.createServer(options, app).listen(3333, () => {
   console.log('Server start');
 });
-
-// server.listen(3333, () => {
-//   console.log('Server start');
-// });
