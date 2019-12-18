@@ -5,7 +5,8 @@ import { search } from 'sinesp-api';
 
 const options = {
   key: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/fullchain.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/lpr.letmein.com.br/chain.pem'),
 };
 
 const app = express();
